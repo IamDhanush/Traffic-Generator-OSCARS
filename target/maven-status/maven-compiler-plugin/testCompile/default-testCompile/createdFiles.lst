@@ -1,0 +1,7 @@
+com/acnl/oscar/trafficgenerator/RequestServiceTest.class
+com/acnl/oscar/trafficgenerator/PathServiceTest.class
+com/acnl/oscartrafficgenerator/model/request/AdvancedRequestApiTest.class
+com/acnl/oscartrafficgenerator/buisness/GenericBuilderServiceTest.class
+com/acnl/oscar/trafficgenerator/LinkServiceTest.class
+com/acnl/oscar/trafficgenerator/DistributeTest.class
+com/acnl/oscar/trafficgenerator/TrafficControllerTest.class

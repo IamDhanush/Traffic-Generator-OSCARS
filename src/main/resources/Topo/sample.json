@@ -1,0 +1,20 @@
+[
+  {
+    "ipv4Address": "134.55.36.46",
+    "ifces": [
+      {
+        "urn": "device1",
+        "ip" :26
+      }
+     ]   
+  },
+  {
+    "ipv4Address": "134.55.200.138",
+    "ifces": [
+      {
+        "urn": "device2",
+        "ip" : 23
+      }
+     ]   
+  }
+]
