@@ -27,6 +27,7 @@ To start generating traffic (Make sure the OSCARS is started)
     mvn -f ./oscar-trafficgenerator exec:java -Dexec.mainClass="com.acnl.oscartrafficgenerator.MainApp" -Dexec.args="$seed $totalrequest PALINDROME $numPaths $minnumflows $maxnumflows $arrival $holding $deviceproperties $bandwidth $bandwidthdeviation $failure oscarTrafficController NONE"
 
  A sample script **"script.sh"** file is uploaded with the project for reference.
+ (Modify the script according to your requirements)
  
  To run the script,
   
