@@ -22,7 +22,7 @@ import com.acnl.oscartrafficgenerator.model.Link;
  */
 public class LinksService {
 	
-	private List<Link> linkSet;
+	private List<Link> links;
 	private Queue<Link> linkFailureQueue;
 	private Supplier<DistributionServiceInterface> distributionSupplier;
 	private double buriedMTBF, overseasMTBF, buriedKmPerAmplifier, overseasKmPerAmplifier,buriedMTTR,overseasMTTR,amplifierPlacements;
@@ -30,7 +30,7 @@ public class LinksService {
 	@Autowired
 	public LinksService(Supplier<DistributionServiceInterface> distributionSupplier, List<Link> linksModels, double buriedLinkFIT, double overseasLinkFIT, double buriedAmplifierFIT,double overseasAmplifierFIT, double amplifierPlacements, double buriedMTTR, double overseasMTTR){
 		this.distributionSupplier=distributionSupplier;
-		this.linkSet=linksModels;
+		this.links=linksModels;
 		this.buriedMTBF= Math.pow(10,9)/buriedLinkFIT;
 		this.overseasMTBF= Math.pow(10,9)/overseasLinkFIT;
 		this.buriedKmPerAmplifier=buriedAmplifierFIT/buriedLinkFIT;
@@ -43,13 +43,13 @@ public class LinksService {
 	//This will generate failures for each links
 	public void generateLinkFailures(int seed){
 		int distance;
-		linkFailureQueue=new PriorityQueue<>(linkSet.size(),new Comparator<Link>(){
+		linkFailureQueue=new PriorityQueue<>(links.size(),new Comparator<Link>(){
 			@Override
 			public int compare (Link link_one,Link link_two){
 				return (int) (link_one.getCurrentFailure()-link_two.getCurrentFailure());
 			}
 		});
-		for(Link link:linkSet){
+		for(Link link:links){
 			DistributionServiceInterface failureDistribution=distributionSupplier.get();
 			DistributionServiceInterface repairDistribution=distributionSupplier.get();
 			distance=link.getDistance();
@@ -107,21 +107,26 @@ public class LinksService {
 		Iterator<Link> itr=linkFailureQueue.iterator();
 		while(itr.hasNext()){
 		   Link linkPojo=itr.next();
-		   linkPojo.printObject();
 		   System.out.println("FailureTime: "+linkPojo.getCurrentFailure()+" RepairTime: "+linkPojo.getCurrentRepair());
 		}
 	}
 	
-	public int totFailures(){
-		return linkSet.stream().mapToInt(link->link.getNumFailures()).sum();
+	public int totFailures(int time){
+		//return links.stream().filter(link->link.getCurrentFailure()>=time && link.getNumFailures()>1).mapToInt(link->link.getNumFailures()-1).sum();
+		List<Integer> allFailures=new LinkedList<Integer>();
+		for(Link link:links){
+			int failureTime=(int)link.getCurrentFailure();
+			while(failureTime<10000){
+				//if(failureTime>20000)
+				allFailures.add(failureTime);
+				failureTime=failureTime+(int)link.getNextFailure();
+			}
+		}
+		return allFailures.size();
 	}
 	
 	public int getTotalLinks(){
-		return linkSet.size();
-	}
-
-	public void to_string(){
-		linkSet.forEach(linksPojo->linksPojo.printObject());	
+		return links.size();
 	}
 	
 }

@@ -95,9 +95,9 @@ public class Link {
     	return num_failures;
     }
     
-    public void printObject(){
+    public String toString(){
     	linkPair.stream().forEach(link->System.out.print(link+"->"));
-    	System.out.println("Length: "+distance+", Installation Method: "+type);
+    	return "Length: "+distance+", Installation Method: "+type;
     }
     
 }

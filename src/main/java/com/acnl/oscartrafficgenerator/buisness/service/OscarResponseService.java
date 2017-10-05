@@ -28,9 +28,6 @@ public class OscarResponseService {
 	private PathService pathService;
 	
 	@Autowired
-	private LinksService linkService;
-	
-	@Autowired
 	private ResponseService responseService;
 	
 	@Autowired
@@ -129,22 +126,29 @@ public class OscarResponseService {
 			return false;
 	}*/
 	
-	public void writeToFile(double simTime) throws Exception {
+	public void writeToFile(double simTime, int requests) throws Exception {
 		FileWriter fileWriter=fileService.getOutputFile();
-		fileWriter.write("\nSeed No: "+requestService.getSeed()+"\nBlocking Probability: "+((float)oscarAborts/(float)requestService.getTotalRequests())+
-				"\nFailure Probability: "+((float)failedRequests/(float)(requestService.getTotalRequests()-oscarAborts))
+		fileWriter.write("\nSeed No: "+requestService.getSeed()
+				+"\nBlocking Probability: "+((float)oscarAborts/(float)requests)
+				+"\nFailure Probability: "+((float)failedRequests/(float)(requests-oscarAborts))
 				+"\nAborted by Oscars: "+oscarAborts+"\nCommitted, then failed: "+failedRequests);
 		if(palindrome){
 	    	 for(int i=0;i<numberOfPaths;i++){
 	    		 fileWriter.write("\nOnly Path "+(i+1)+" fails: "+(failureCountsPath[i]-failedRequests)
 	    				 +"\nHop counts when path "+(i+1)+" fails: "+(float)failedPathHops[i]/(float)failureCountsPath[i]
-	    				 +"\nHop counts when path "+(i+1)+" succeeds: "+(float)successPathHops[i]/(float)(requestService.getTotalRequests()-failureCountsPath[i]));
+	    				 +"\nHop counts when path "+(i+1)+" succeeds: "+(float)successPathHops[i]/(float)(requests-failureCountsPath[i]));
 	    	 }
 	    }	
-		fileWriter.write("\nTotal Failures: "+linkService.totFailures()+"\nStartTime: "+requestService.getConnectionStartTime()
+		fileWriter.write("\nStartTime: "+requestService.getConnectionStartTime()
 		        +"\nEndTime: "+requestService.getConnectionEndTime()
 		        +"\nSimulation Time: "+simTime+" Minutes"
-		        +"\nTotalRequests: "+ requestService.getTotalRequests());
+		        +"\nTotalRequests: "+ requests);
+		fileWriter.close();
+	}
+	
+	public void writeNormalizedFailures(int requests) throws Exception{
+		FileWriter fileWriter=fileService.getOutputFile();
+		fileWriter.write("\nNormalized Failure Probability: "+((float)failedRequests/(float)requests));
 		fileWriter.close();
 	}
 	

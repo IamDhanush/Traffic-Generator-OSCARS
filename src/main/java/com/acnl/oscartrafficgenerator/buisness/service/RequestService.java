@@ -22,12 +22,11 @@ public class RequestService {
 	private DevicesService deviceService;
 	private LinksService linkService;
 	private List<Double> devices=new LinkedList<Double>();
-	private String ports[]=new String[1];
 	private List<String> blacklist=new LinkedList<String>(),azRoute=new LinkedList<String>(),zaRoute=new LinkedList<String>();
 	private int bandwidth,degree,seed,totalRequests;
 	private byte failure;
 	private long startTime=0,endTime=0;
-	private String numDisjointPaths, minNumFlows, maxNumFlows,palindrome,surviva;
+	private String numDisjointPaths, minNumFlows, maxNumFlows,palindrome,surviva,ports[];
 
 	@Autowired
 	public RequestService(Supplier<DistributionServiceInterface> startTimeDistribution, Supplier<DistributionServiceInterface> endTimeDistribution, Supplier<DistributionServiceInterface> deviceDistribution,
@@ -87,6 +86,15 @@ public class RequestService {
 	public void setMaxNumFlows(String maxNumFlows) {
 		this.maxNumFlows = maxNumFlows;
 	}
+	
+	public int getDegree(){
+		return degree;
+	}
+	
+	public void setDegree(String degree){
+		this.degree=Integer.valueOf(degree);
+		ports=new String[this.degree+1];//+1 for source
+	}
 
 	public void setArrivalProperties(String mean){
 		startTimeDistribution.setSeed(seed);
@@ -102,10 +110,6 @@ public class RequestService {
 	   this.degree=Integer.valueOf(degree);
 	   deviceDistribution.setSeed(seed);
        deviceDistribution.setRange(0,deviceService.getTotalDevice()-1);
-	}
-	
-	public int getDegree(){
-		return degree;
 	}
 	
 	public void setBandwidthProperties(String mean, String sd){
@@ -145,12 +149,14 @@ public class RequestService {
     	if(devices.isEmpty()){
     		 devices=deviceDistribution.getUniqueSamples(degree+1);//+1 for source
     	}
+    	if(ports[device]==null){
+    		ports[device]= deviceService.getPort(devices.get(device).intValue());  
+    	}
         return deviceService.getDevice(devices.get(device).intValue());
     }
     
-    public String[] getConnectionPort(int device){
-    	ports[0]=deviceService.getPort(devices.get(device).intValue());
-        return ports;    	
+    public String getConnectionPort(int device){
+        return ports[device];
     }
     
     public int bandwidth(){
@@ -195,6 +201,7 @@ public class RequestService {
     
     public void clearRequest(){
     	devices.clear();
+    	ports=new String[degree+1];
     	blacklist.clear();
     	azRoute.clear();
     	zaRoute.clear();

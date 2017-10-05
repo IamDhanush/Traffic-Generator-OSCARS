@@ -4,6 +4,8 @@
 package com.acnl.oscartrafficgenerator.application.config;
 
 
+import java.util.function.Supplier;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -60,9 +62,15 @@ public class RequestConfig {
 	}
 	
 	@Bean
-	public GenericBuilderService<AdvancedRequestFlowApi> flowBuilder() throws Exception{
+	@Scope("prototype")
+	public GenericBuilderService<AdvancedRequestFlowApi> flowBuilder(){
 		return new GenericBuilderService<AdvancedRequestFlowApi>(new AdvancedRequestFlowApi());
 	}
+	
+	@Bean
+	public Supplier<GenericBuilderService<AdvancedRequestFlowApi>> advancedRequestFlowSupplier() throws Exception {
+        return this::flowBuilder;
+    }
 	
 	
 	@Bean

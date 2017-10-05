@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Scope;
 
 import com.acnl.oscartrafficgenerator.buisness.controller.TrafficControllerInterface;
-import com.acnl.oscartrafficgenerator.buisness.controller.trafficcontrollerimpl.SurvivaController;
-import com.acnl.oscartrafficgenerator.buisness.controller.trafficcontrollerimpl.SurvivaRestorationController;
+import com.acnl.oscartrafficgenerator.buisness.controller.trafficcontrollerimpl.OscarTrafficController;
+import com.acnl.oscartrafficgenerator.buisness.controller.trafficcontrollerimpl.OscarTrafficRestorationController;
 /**
  * @author vsundarrajan
  *
@@ -22,15 +22,15 @@ public class TrafficControllerConfig {
 
 	@Bean
 	@Scope("singleton")
-	@Qualifier("survivaRestore")
-	public TrafficControllerInterface survivaRestore() throws Exception{
-		return new SurvivaRestorationController();
+	@Qualifier("oscarTrafficRestorationController")
+	public TrafficControllerInterface oscarTrafficRestorationController() throws Exception{
+		return new OscarTrafficRestorationController();
 	}
 	
 	@Bean
 	@Scope("singleton")
-	@Qualifier("surviva")
-	public TrafficControllerInterface surviva() throws Exception{
-		return new SurvivaController();
+	@Qualifier("oscarTrafficController")
+	public TrafficControllerInterface oscarTrafficController() throws Exception{
+		return new OscarTrafficController();
 	}
 }

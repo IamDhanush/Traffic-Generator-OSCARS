@@ -33,9 +33,10 @@ public class MainApp {
 		.with(s->s.setMinNumFlows(args[4])).with(s->s.setMaxNumFlows(args[5]))
 		.with(s->s.setArrivalProperties(args[6])).with(s->s.setHoldingProperties(args[7]))
 		.with(s->s.setDeviceProperties(args[8])).with(s->s.setBandwidthProperties(args[9], args[10]))
-		.with(s->s.setFailureProperties(args[11])).with(s->s.setSurviva(args[13])).get();
+		.with(s->s.setDegree(args[11])).with(s->s.setFailureProperties(args[12]))
+		.with(s->s.setSurviva(args[14])).get();
 		
-		TrafficControllerInterface trafficController=(TrafficControllerInterface)appCtx.getBean(args[12]);
+		TrafficControllerInterface trafficController=(TrafficControllerInterface)appCtx.getBean(args[13]);
 	    trafficController.generateTraffic();
 	    ((ConfigurableApplicationContext)appCtx).close();
 	}

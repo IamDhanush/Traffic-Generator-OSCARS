@@ -25,7 +25,7 @@ import com.acnl.oscartrafficgenerator.model.request.AdvancedRequestFlowApi;
  * @author vsundarrajan
  *
  */
-public class SurvivaRestorationController implements TrafficControllerInterface {
+public class OscarTrafficRestorationController implements TrafficControllerInterface {
 	
 	@Autowired
 	private RequestService requestService;
@@ -64,7 +64,7 @@ public class SurvivaRestorationController implements TrafficControllerInterface 
 	public void generateTraffic() throws Exception{
 		this.setInitialRequestProperties();
 		oscarResponseService.setOscarResponseService(true);
-		int i=0,totalRequest=requestService.getTotalRequests();
+		int currentRequest=0,totalRequest=requestService.getTotalRequests();
 	    numDisJointPaths=Integer.valueOf(requestService.getNumDisjointPaths());
 		long millis = System.currentTimeMillis();
 		while(startTime<50000){
@@ -72,9 +72,9 @@ public class SurvivaRestorationController implements TrafficControllerInterface 
 			pathService.getFailedPathIds(startTime).stream().filter(Objects::nonNull)
 				.forEach(id->restController.abortRequest(id));
 			flow[0]=flowBuilder.with(s->s.setSourceDevice(requestService.getConnectionDevice(0)))
-					.with(s->s.setSourcePorts(requestService.getConnectionPort(0)))
+					.with(s->s.setSourcePorts(new String[]{requestService.getConnectionPort(0)}))
 					.with(s->s.setDestDevice(requestService.getConnectionDevice(1)))
-					.with(s->s.setDestPorts(requestService.getConnectionPort(1)))
+					.with(s->s.setDestPorts(new String[]{requestService.getConnectionPort(1)}))
 					.with(s->s.setAzMbps(requestService.bandwidth()))
 					.with(s->s.setZaMbps(requestService.getBandwidth()))
 					.with(s->s.setAzRoute(requestService.getAzRoute()))
@@ -94,11 +94,11 @@ public class SurvivaRestorationController implements TrafficControllerInterface 
 				submitEquivalentUnicast();
 			}
 			connectionId++;
-			i++;
+			currentRequest++;
 		 requestService.clearRequest();
 		 oscarResponseService.clear();
 		}
-		oscarResponseService.writeToFile((((double)System.currentTimeMillis())-(double)millis)/60000);	
+		oscarResponseService.writeToFile((((double)System.currentTimeMillis())-(double)millis)/60000,currentRequest);	
 	}
 	
 	private void submitEquivalentUnicast() throws Exception{

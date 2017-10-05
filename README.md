@@ -4,6 +4,7 @@
 
 ----
 **About Traffic Generator**
+
   A Simulator to generate traffic for Controller OSCARS to test and analyze the reservation possibilities for different types of traffics. More on OSCARS can be found [here](https://github.com/NetLab/oscars-newtech/%22here%22). This is a maven project built to run parallely with OSCARS only for research purposes (Not a software testing tool). 
   
 **Setting up the Environment**
@@ -31,7 +32,7 @@ To start generating traffic (Make sure the OSCARS is started)
   
    `./script.sh`
    
-# More on Project Structure
+**More on Project Structure**
 
 Read the files in the **"doc"** folder for the architecture and project structure.
 

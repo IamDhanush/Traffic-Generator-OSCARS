@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,26 +37,57 @@ public class RequestServiceTest {
 	@Autowired
 	private RequestService requestService;
 	
+	@Ignore
 	@Test
 	public void testRequestServiceBuilder() {
 	    RequestService requestService=requestServiceBuilder.with(s->s.setSeed("1000")).with(s->s.setArrivalProperties("1000")).with(s->s.setHoldingProperties("1000")).with(s->s.setDeviceProperties("3")).with(s->s.setBandwidthProperties("500","20")).with(s->s.setFailureProperties("1")).get();
-	    /*System.out.println(requestService.connectionStartTime());
+	    System.out.println(requestService.connectionStartTime());
 	    System.out.println(requestService.connectionEndTime());
 	    System.out.println(requestService.getBandwidth());
 	    System.out.println(requestService.getConnectionDevice(3));
-	    System.out.println(new String[]{requestService.getConnectionPort(3)});
+	    /*System.out.println(new String[]{requestService.getConnectionPort(3)});
 	    Collection<String> blacklist=requestService.addFailedLinks(new LinkedList<String>(),1000);
 	    for(String s:blacklist){
-	    	System.out.println(s);*/
-	    }
-	    
+	    	System.out.println(s);
+	    }*/
+	}
+	
+	@Test
+	public void testDeviceProperties() {
+		RequestService requestService=requestServiceBuilder.with(s->s.setDeviceProperties("2")).with(s->s.setDegree("2")).with(s->s.setSeed("101")).get();
+		System.out.println(requestService.getConnectionDevice(0));
+		System.out.println(requestService.getConnectionPort(0));
+		System.out.println(requestService.getConnectionDevice(1));
+		System.out.println(requestService.getConnectionPort(1));
+		System.out.println(requestService.getConnectionDevice(2));
+		System.out.println(requestService.getConnectionPort(2));
+		System.out.println();
+		System.out.println(requestService.getConnectionDevice(0));
+		System.out.println(requestService.getConnectionPort(0));
+		System.out.println(requestService.getConnectionDevice(1));
+		System.out.println(requestService.getConnectionPort(1));
+		System.out.println(requestService.getConnectionDevice(2));
+		System.out.println(requestService.getConnectionPort(2));
+		System.out.println();
+		requestService.clearRequest();
+		System.out.println(requestService.getConnectionDevice(0));
+		System.out.println(requestService.getConnectionPort(0));
+		System.out.println(requestService.getConnectionDevice(1));
+		System.out.println(requestService.getConnectionPort(1));
+		System.out.println(requestService.getConnectionDevice(2));
+		System.out.println(requestService.getConnectionPort(2));
+		System.out.println();
+	}
+	
+	@Ignore
 	@Test
 	public void testGetConnectionDevice(){
 		RequestService requestService=requestServiceBuilder.with(s->s.setSeed("1000")).with(s->s.setDeviceProperties("1")).get();
 	    System.out.println(requestService.getConnectionDevice(0)+" "+requestService.getConnectionDevice(1));
-	    Arrays.stream(requestService.getConnectionPort(1)).forEach(i->System.out.println(i));
+	    //Arrays.stream(requestService.getConnectionPort(1)).forEach(i->System.out.println(i));
 	}
 	
+	@Ignore
 	@Test
 	public void testStartEndTime(){
 		RequestService requestService=requestServiceBuilder.with(s->s.setSeed("1000")).with(s->s.setArrivalProperties("1000")).with(s->s.setHoldingProperties("1000")).with(s->s.setDeviceProperties("3")).with(s->s.setBandwidthProperties("500","20")).with(s->s.setFailureProperties("1")).get();
@@ -67,6 +99,7 @@ public class RequestServiceTest {
 		System.out.println(requestService.connectionEndTime());*/
 	}
 	
+	@Ignore
 	@Test
 	public void testBlackList() throws Exception{
 		RequestService requestService=requestServiceBuilder.with(s->s.setSeed("1000")).with(s->s.setArrivalProperties("1000")).with(s->s.setHoldingProperties("1000")).with(s->s.setDeviceProperties("3")).with(s->s.setBandwidthProperties("500","20")).with(s->s.setFailureProperties("1")).get();
