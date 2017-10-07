@@ -95,7 +95,7 @@ public class RequestService {
 		this.degree=Integer.valueOf(degree);
 		ports=new String[this.degree+1];//+1 for source
 	}
-
+	
 	public void setArrivalProperties(String mean){
 		startTimeDistribution.setSeed(seed);
 	    startTimeDistribution.setMean(Double.valueOf(mean));

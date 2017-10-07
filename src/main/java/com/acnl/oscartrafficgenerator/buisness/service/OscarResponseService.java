@@ -35,7 +35,7 @@ public class OscarResponseService {
 
 	
 	private boolean palindrome=false,failure=false,restoration=false,restoreStatus;
-	private int numberOfPaths, oscarAborts=0, failedRequests=0,connectionId;
+	private int numberOfPaths, oscarAborts=0, failedRequests=0,connectionId, pathOverlaps=0;
 	private Boolean[] pathStatus;
 	private int[] failureCountsPath,successPathHops,failedPathHops;
 	
@@ -62,6 +62,8 @@ public class OscarResponseService {
 	    	if(failure){
 	    		this.updatePathStatus();
 		    	if(Stream.of(pathStatus).allMatch((i)->i==false)){//all paths failed
+		    		if(this.pathOverlap())
+		    			pathOverlaps++;
 		    		failedRequests++;
 		    		restoreStatus=true;
 		    	}
@@ -119,12 +121,12 @@ public class OscarResponseService {
 		return pathService.isPathFailed(responseService.getPathLinks(path), requestService.getConnectionEndTime());
 	}
 	
-	/*private boolean pathOverlap() throws Exception{
+	private boolean pathOverlap() throws Exception{
 		if(palindrome)
 			return pathService.isPathOverlapped(responseService.getPathLinks(0),responseService.getPathLinks(1) ,requestService.getConnectionStartTime(), requestService.getConnectionEndTime());
 		else // non-palindrome
 			return false;
-	}*/
+	}
 	
 	public void writeToFile(double simTime, int requests) throws Exception {
 		FileWriter fileWriter=fileService.getOutputFile();
@@ -134,12 +136,13 @@ public class OscarResponseService {
 				+"\nAborted by Oscars: "+oscarAborts+"\nCommitted, then failed: "+failedRequests);
 		if(palindrome){
 	    	 for(int i=0;i<numberOfPaths;i++){
-	    		 fileWriter.write("\nOnly Path "+(i+1)+" fails: "+(failureCountsPath[i]-failedRequests)
+	    		 fileWriter.write("\nPath "+(i+1)+" fails: "+(failureCountsPath[i])
 	    				 +"\nHop counts when path "+(i+1)+" fails: "+(float)failedPathHops[i]/(float)failureCountsPath[i]
 	    				 +"\nHop counts when path "+(i+1)+" succeeds: "+(float)successPathHops[i]/(float)(requests-failureCountsPath[i]));
 	    	 }
 	    }	
-		fileWriter.write("\nStartTime: "+requestService.getConnectionStartTime()
+		fileWriter.write("\nPathOverlaps: "+pathOverlaps
+	            +"StartTime: "+requestService.getConnectionStartTime()
 		        +"\nEndTime: "+requestService.getConnectionEndTime()
 		        +"\nSimulation Time: "+simTime+" Minutes"
 		        +"\nTotalRequests: "+ requests);
