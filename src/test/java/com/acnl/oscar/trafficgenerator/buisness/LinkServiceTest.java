@@ -1,12 +1,13 @@
 /**
  * 
  */
-package com.acnl.oscar.trafficgenerator;
+package com.acnl.oscar.trafficgenerator.buisness;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.*;
 
 import java.io.FileWriter;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -63,6 +64,13 @@ public class LinkServiceTest {
 	     System.out.println(devicesService.getPort(5));
 	     System.out.println(devicesService.getTotalDevice());
 		 assertEquals("pppl-rt5",devicesService.getDevice(0));
+	}
+	
+	@Test
+	public void testLinks() throws Exception{
+		for(Link link:links){
+		   System.out.println(link);
+		}	 
 	}
 	
 	@Ignore
@@ -126,7 +134,7 @@ public class LinkServiceTest {
 		fileWriter.close();
 	}
 	
-	//@Ignore
+	@Ignore
 	@Test
 	public void getFailureTime() throws Exception{
 		FileWriter fileWriter=fileService.getOutputFile();

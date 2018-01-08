@@ -17,17 +17,18 @@ import com.acnl.oscartrafficgenerator.buisness.service.DistributionServiceInterf
 @JsonDeserialize(using = LinkDeserializer.class)
 public class Link {
 
-	private int distance, num_failures=0;
+	private int distance, num_failures=0, cost;
 	private String type;
 	private List<String> linkPair=new LinkedList<String>();
 	private DistributionServiceInterface failureDistribution,repairDistribution;
 	private double currentFailure,currentRepair,updatedFailureDifference=0;
 	
-    public Link(String a,int distance,String type,String z){
+    public Link(String a,int distance,String type,String z, int cost){
 		this.linkPair.add(a);
 		this.linkPair.add(z);
 		this.distance=distance;
 		this.type=type;
+		this.cost=cost;
 	}
     
     public void setFailureDistribution(DistributionServiceInterface distribution){
@@ -83,6 +84,10 @@ public class Link {
     	return linkPair;
     }
     
+    public int getCost() {
+    	return cost;
+    }
+    
     public int getDistance(){
     	return distance;
     }
@@ -97,7 +102,7 @@ public class Link {
     
     public String toString(){
     	linkPair.stream().forEach(link->System.out.print(link+"->"));
-    	return "Length: "+distance+", Installation Method: "+type;
+    	return " Length: "+distance+", Installation Method: "+type+", Cost: "+cost;
     }
     
 }

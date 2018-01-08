@@ -1,4 +1,4 @@
-package com.acnl.oscar.trafficgenerator;
+package com.acnl.oscar.trafficgenerator.buisness;
 
 import static org.junit.Assert.*;
 

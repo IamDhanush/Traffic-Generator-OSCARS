@@ -22,7 +22,6 @@ public class LinkDeserializer extends JsonDeserializer<Link> {
 	public Link deserialize(JsonParser jp, DeserializationContext ctxt)
 			throws IOException, JsonProcessingException {
 		JsonNode links = jp.getCodec().readTree(jp);
-		return new Link(links.path("a").asText(),links.path("length").asInt(),links.path("type").asText(),links.path("z").asText());
+		return new Link(links.path("a").asText(),links.path("length").asInt(),links.path("type").asText(),links.path("z").asText(), links.path("metrics").path("MPLS").asInt());
 	}
-
 }
