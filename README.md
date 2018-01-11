@@ -5,7 +5,7 @@
 ----
 **About Traffic Generator**
 
-  A Simulator to generate traffic for Controller OSCARS to test and analyze the reservation possibilities for different types of traffics. More on OSCARS can be found [here](https://github.com/NetLab/oscars-newtech/%22here%22). This is a maven project built to run parallely with OSCARS only for research purposes (Not a software testing tool). 
+  A Simulator to generate traffic for Controller OSCARS to test and analyze the reservation capabilities for different types of traffics. More on OSCARS can be found [here](https://github.com/NetLab/oscars-newtech/%22here%22). This is a maven project built to run parallely with OSCARS only for research purposes (Not a software testing tool). 
   
 **Setting up the Environment**
   
@@ -24,13 +24,12 @@ If you want to skip tests
 
     mvn -f -DskipTests package
     
-To start generating traffic (Make sure the OSCARS is started)
+To start generating traffic (Make sure the OSCARS is started in another terminal)
 	   
 
     mvn -f ./oscar-trafficgenerator exec:java -Dexec.mainClass="com.acnl.oscartrafficgenerator.MainApp" -Dexec.args="$seed $totalrequest PALINDROME $numPaths $minnumflows $maxnumflows $arrival $holding $deviceproperties $bandwidth $bandwidthdeviation $failure oscarTrafficController NONE"
 
- A sample script **"script.sh"** file is uploaded with the project for reference.
- (Modify the script according to your requirements)
+ A sample script **"script.sh"** file is uploaded with the project for reference. This recursively generates traffic based on the input traffic controller. Modify the script according to your requirements.
  
  To run the script,
   
@@ -38,7 +37,7 @@ To start generating traffic (Make sure the OSCARS is started)
    
 **More on Project Structure**
 
-  Read the files in the **"doc"** folder for the architecture and project structure.
+  Read the files in the **"doc"** folder for the architecture and project structure. Also, you can write your own traffic controller as specified in the Document.
 
 
 
